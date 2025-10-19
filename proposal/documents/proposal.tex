@@ -8,11 +8,18 @@
 \usepackage{hyperref}
 \usepackage{xcolor}
 
-\setstretch{1.1}
+\setstretch{1}
 
-\title{\textcolor{blue}{A Design-Based Statistical Investigation into the Determinants of Vehicle Fuel Consumption Efficiency}}
+\title{{A Model-Based Statistical Investigation of Factors Influencing Vehicle Fuel Efficiency}}
 % \large Effects of Cylinders, Horsepower, Weight, and Model Year on Fuel Efficiency:\\ A $2^4$ Factorial Design Using Car Dataset}
-\author{Group members: Jiahui Yan, Feng Gu, Ella, Yuzhuo Ye, Taiwo}
+\author{
+Group members:
+Feng Gu (T00751197),
+Jiahui Yan (T00752485), \\
+Emmanuella Onyejiaka (T00748938), 
+Yuzhuo Ye (T00751492), \\
+Taiwo Ogunkeye (T00751495)
+}
 \date{}
 
 \begin{document}
@@ -22,17 +29,17 @@
 
 Fuel efficiency remains one of the most important performance indicators in the automotive industry,
 influencing both environmental impact and consumer cost. Previous studies \cite{ahmad2020, greene2017}
-have shown \textcolor{blue}{that some mechanical factors}, like engine size and horsepower can affect fuel consumption.
+have shown {that some mechanical factors}, like engine size and horsepower can affect fuel consumption.
 
-\textcolor{blue}{With the right combination of these factors, improvement on fuel efficiency has been proven achieved,
-and it promises the potential for developing more fuel-efficient vehicles by exploring optimal 
-configurations on these factors and their interactions.}
-Out of this background, this project aims to examine how a series of car factors affect the target variable---fuel efficiency. 
+With the right combination of these factors, improvement on fuel efficiency has been proven achievable,
+which promises the potential for developing more fuel-efficient vehicles by exploring optimal 
+configurations on these factors and their interactions.
+Motivated by this background, this project aims to examine how a series of car factors (controllable factors) affect the fuel efficiency (target variable).
 
-\section{\textcolor{blue}{Research Objectives}}
+\section{{Research Objectives}}
 
 This project aims to systematically investigate the factors influencing automotive fuel efficiency through
-experimental design methodology. The primary objective is to examine how key automotive characteristics individually
+statistically controls for major confounding factors. The primary objective is to examine how key automotive characteristics individually
 and collectively affect miles per gallon (MPG) performance. Specifically, we seek to:
 \begin{enumerate}
     \item Determine the main effects of each factor on fuel efficiency
@@ -41,14 +48,16 @@ and collectively affect miles per gallon (MPG) performance. Specifically, we see
 \end{enumerate}
 
 
-\section{\textcolor{blue}{Data Description}}
-The data are from the Auto MPG Dataset from UCI Machine Learning Repository \cite{uciml2021autompg}.
+\section{{Data Description}}
+The data are from the Auto MPG Dataset
+\footnote{Data source: \url{https://www.kaggle.com/datasets/uciml/autompg-dataset}}
+from UCI Machine Learning Repository \cite{uciml2021autompg}, it contains 398 automobiles manufactured between 1970-1982.
 
-The Auto MPG Dataset from UCI Machine Learning Repository contains 398 automobiles manufactured between 1970-1982.
-The dataset includes nine variables: the dependent variable MPG and eight predictors including cylinders, displacement, horsepower, weight, 
+The dataset includes nine variables: the dependent variable \textbf{mpg} and eight predictors including cylinders, displacement, horsepower, weight, 
 acceleration, model year, origin, and car name,
 \footnote{Here the car name is a long string with brand and model information.}
-the variable meanings are provided in Table \textcolor{blue}{\ref{tab:dataset_summary}} and their distributions are shown in Figure \textcolor{blue}{\ref{fig:numerical_distributions_with_outliers}}.
+the variable meanings are provided in \textcolor{blue}{Table \ref{tab:dataset_summary}} and 
+their distributions are shown in \textcolor{blue}{Figure \ref{fig:numerical_distributions_with_outliers}} in the Appendix.
 
 \begin{table}[!h]
 \centering
@@ -71,35 +80,55 @@ car name & Car make and model & $\text{string}$ \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{../results/numerical_distributions_with_outliers.png}
-    \caption{Distributions of Numerical Variables in the Auto MPG Dataset}
-    \label{fig:numerical_distributions_with_outliers}
-\end{figure}
+The variable \textbf{car name} is a string and does not support distribution plots. We split its strings and extract the major car brands for 
+all 398 samples, and the car brand distribution is shown in \textcolor{blue}{Figure \ref{fig:brand_distribution}} in the Appendix.
+
+\section{Literature Review}
+
+Contemporary automotive research employs statistical experimental design methodologies to investigate fuel efficiency factors. Jankovic and Magner \cite{jankovic2006fuel} used 
+factorial design approaches including full-factorial and central composite designs to optimize automotive engine fuel economy. 
+Najafi et al. \cite{najafi2015response} applied response surface methodology to investigate multiple engine parameters including f
+uel blends and operating conditions to optimize both performance and emissions simultaneously. Win et al. \cite{win2005taguchi} 
+implemented Taguchi methods to evaluate diesel engine operating parameters for minimizing noise, emissions, and fuel consumption.
+
+Leveraging the findings and methods of previous studies in developing fuel-efficient vehicles,
+Ahmad et al. \cite{ahmad2020} found 10\% weight reduction improves fuel economy by 8\%. 
+Greene and Welch \cite{greene2017} showed higher cylinder counts reduce MPG due to increased energy requirements.
+Li and Zhao \cite{li2022} observed newer models achieve better efficiency through improved engine management.
 
 
 
-\section{Brief Literature Review}
-
-Studies in automotive engineering and energy policy emphasize that vehicle weight and engine design strongly influence fuel efficiency.
-
-\begin{itemize}
-    \item \cite{ahmad2020} found that a 10\% reduction in weight improves fuel economy by up to 8\%.
-    \item \cite{greene2017} reported that higher cylinder counts and engine power typically reduce mpg due to increased energy requirements.
-    \item \cite{li2022} observed that newer model years integrate improved engine management and aerodynamics, enhancing fuel efficiency despite higher horsepower.
-\end{itemize}
-
-While these studies analyzed individual factors, few examined their interaction effects through factorial experiments. This project addresses that gap by using a $2^4$ factorial design to quantify both individual and combined influences of mechanical and temporal factors on mpg.
+Compared to one-way effects, fewer studies examine comprehensive interaction effects between multiple mechanical, temporal, and geographical factors.
+This project addresses this gap using factorial design and multiple regression analysis to quantify both individual and combined
+influences on fuel efficiency.
 
 
+\section{Overview of Experimental Design}
 
-\clearpage
-\section{\textcolor{blue}{Hypotheses and Statistical Models}}
+
+\subsection{Experimental Units and Design Considerations}
+
+\textbf{Experimental Units:} This study employs an observational design using existing automotive data rather than a controlled experiment. 
+Each of the 398 automobiles in the Auto MPG dataset represents an independent observational unit.
+
+
+\textbf{Design Considerations:} While randomization is not applicable to this observational study, 
+the dataset's comprehensive coverage across multiple manufacturers, model years, and geographic 
+regions provides natural variation that supports robust statistical inference.
+Potential confounding variables including transmission type, engine displacement, 
+and manufacturing differences will be acknowledged as limitations. 
+\subsection{Hypotheses and Statistical Models}
 
 The following hypotheses will be tested to examine the relationships between automotive characteristics and fuel efficiency at $\alpha = 0.05$ significance level:
 
-\subsection{Main Effect Hypotheses}
+
+\subsubsection{ANOVA Model for Categorical Factors:}
+\begin{align}
+\text{MPG}_{ijk} &= \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \epsilon_{ijk}
+\end{align}
+
+\noindent where $i$ represents cylinder groups, $j$ represents origin groups, and $(\alpha\beta)_{ij}$ represents interaction effects.
+The error term is tentatively assumed to follow \(\epsilon_{ijk} \sim N(0,\sigma^2)\) for observations within each group.
 
 \begin{table}[h]
 \centering
@@ -111,32 +140,15 @@ The following hypotheses will be tested to examine the relationships between aut
 \midrule
 Cylinders & Number of cylinders has no significant effect on MPG & Number of cylinders has a significant effect on MPG \\
 \midrule
-Displacement & Engine displacement has no significant effect on MPG & Engine displacement has a significant effect on MPG \\
-\midrule
-Horsepower & Engine horsepower has no significant effect on MPG & Engine horsepower has a significant effect on MPG \\
-\midrule
-Weight & Vehicle weight has no significant effect on MPG & Vehicle weight has a significant effect on MPG \\
-\midrule
-Acceleration & Acceleration time has no significant effect on MPG & Acceleration time has a significant effect on MPG \\
-\midrule
-Model Year & Model year has no significant effect on MPG & Model year has a significant effect on MPG \\
-\midrule
 Origin & Country/region of origin has no significant effect on MPG & Country/region of origin has a significant effect on MPG \\
+\midrule
+Cylinders × Origin & There is no significant interaction effect between cylinders and origin on MPG & There is a significant interaction effect between cylinders and origin on MPG \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Statistical Model Formulations and Hypotheses for Key Relationships}
+\subsubsection{Multiple Linear Regression Model for Continuous Factors:}
 
-\textbf{ANOVA Model for Categorical Factors:}
-\begin{align}
-\text{MPG}_{ijk} &= \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \epsilon_{ijk}
-\end{align}
-
-\noindent where $i$ represents cylinder groups, $j$ represents origin groups, and $(\alpha\beta)_{ij}$ represents interaction effects.
-The error term is tentatively assumed to follow \(\epsilon_{ijk} \sim N(0,\sigma^2)\) for observations within each group.
-
-\textbf{Multiple Linear Regression Model:}
 \begin{align}
 \text{MPG} &= \beta_0 + \beta_1(\text{Cylinders}) + \beta_2(\text{Displacement}) + \beta_3(\text{Horsepower}) \nonumber \\
 &\quad + \beta_4(\text{Weight}) + \beta_5(\text{Acceleration}) + \beta_6(\text{Model Year}) \nonumber \\
@@ -166,89 +178,9 @@ Origin Effect & $\mu_{\text{USA}} = \mu_{\text{Europe}} = \mu_{\text{Japan}}$ & 
 \end{tabular}
 \end{table}
 
-\clearpage
-
-\section{Overview of Experimental Design}
-
-\subsection{Design Type}
-
-A $2^4$ factorial design (no replication) will be used. This design evaluates four independent factors, each at two levels:
-
-\begin{table}[!h]
-\centering
-\begin{tabular}{lll}
-\toprule
-\textbf{Factor} & \textbf{Levels} & \textbf{Type} \\
-\midrule
-Cylinders & 4 vs. 8 & Discrete \\
-Horsepower & Low vs. High (median split) & Continuous (categorized) \\
-Weight & Low vs. High (median split) & Continuous (categorized) \\
-Model Year & Old vs. New (pre-1980 vs. post-1980) & Categorical \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Dependent Variable: \textit{Miles per Gallon (mpg)} — continuous measure of fuel efficiency.
-
-\subsection{Experimental Units}
-
-Each car in the dataset represents one experimental unit. Cars are assigned into treatment combinations according to the four factors. With a $2^4$ factorial design, there are 16 treatment combinations (e.g., 4-cylinder, low horsepower, low weight, old model year).
-
-\subsection{Randomization and Control}
-
-\begin{itemize}
-    \item \textbf{Randomization:} Cars are randomly selected from the dataset for each treatment combination to minimize selection bias.
-    \item \textbf{Control Variables:} Transmission type and engine displacement will be monitored to reduce confounding effects.
-\end{itemize}
-
-\section{Statistical Analysis Plan}
-
-\subsection{Data Preparation}
-
-Data from the car dataset will be preprocessed in \textsf{R}:
-
-\begin{itemize}
-    \item Handle missing values using mean or median imputation.
-    \item Categorize continuous predictors (horsepower and weight) into “low” and “high” based on median splits.
-    \item Code categorical variables (e.g., cylinders = \{4, 8\}; model\_year = \{old, new\}).
-\end{itemize}
-
-\subsection{Analysis Method}
-
-A four-factor ANOVA ($2^4$ design) will be conducted to test main and interaction effects. 
-
-If assumptions are not met:
-\begin{itemize}
-    \item Apply transformation (e.g., $\log(\text{mpg})$).
-    \item Use multiple regression as an alternative model.
-\end{itemize}
-
-\subsection{Statistical Tools}
-
-\begin{itemize}
-    \item Normality test: Shapiro–Wilk test
-    \item Variance homogeneity: Levene’s test
-    \item Effect size: Partial $\eta^2$ using \texttt{effectsize} package
-    \item Visualization: Interaction plots and residual diagnostics (\textsf{ggplot2}, \textsf{interactions} packages)
-\end{itemize}
 
 
-\textbf{Main Effects:} Cars with fewer cylinders, lower horsepower, lighter weight, and newer models are expected to have higher mpg.
-
-\textbf{Interaction Effects:}
-\begin{itemize}
-    \item The negative effect of weight may be stronger for older cars.
-    \item The effect of horsepower may depend on the number of cylinders.
-\end{itemize}
-
-These outcomes could provide insights into energy-efficient automotive design and environmental sustainability initiatives.
-
-
-
-
-\clearpage
-
-\section{\textcolor{blue}{Preliminary Analysis: One-Way ANOVA on Car Origin and Fuel Efficiency}}
+\section{{Preliminary Analysis: One-Way ANOVA on Car Origin and Fuel Efficiency}}
 
 % \subsection{One-Way ANOVA: Effect of Car Origin on Fuel Efficiency}
 
@@ -309,8 +241,7 @@ This preliminary analysis confirms significant regional differences in automotiv
 the inclusion of origin as a key factor in subsequent multi-factorial designs.
 
 
-% ====================================
-\clearpage
+
 \section{References}
 \begin{thebibliography}{9}
 
@@ -323,18 +254,40 @@ Greene, D. L., \& Welch, T. (2017). \textit{Impact of engine size and vehicle we
 \bibitem{li2022}
 Li, F., \& Zhao, J. (2022). \textit{Advances in automotive efficiency: The role of model year innovation}. Applied Energy, 325, 119823.
 
-\bibitem{usdoe2021}
-U.S. Department of Energy. (2021). \textit{Fuel Economy Trends Report}. Retrieved from \url{https://www.energy.gov}
-
 \bibitem{uciml2021autompg}
 U.S. Department of Energy. (2021). \textit{Auto MPG Dataset}. 
 UCI Machine Learning Repository. Retrieved from \url{https://www.kaggle.com/datasets/uciml/autompg-dataset}
 
+\bibitem{montgomery2019design}
+Montgomery, D. C. (2019). \textit{Design and Analysis of Experiments} (9th ed.). John Wiley \& Sons.
+
+\bibitem{jankovic2006fuel}
+Jankovic, M., \& Magner, S. (2006). Fuel economy optimization in automotive engines. \textit{2006 American Control Conference}. IEEE. pp. 3334-3340.
+
+\bibitem{najafi2015response}
+Najafi, G., Ghobadian, B., Yusaf, T., Ardebili, S. M. S., \& Mamat, R. (2015).
+Optimization of performance and exhaust emission parameters of a SI (spark ignition) engine with gasoline–ethanol
+blended fuels using response surface methodology. \textit{Energy}, 90, 1815-1829.
+
+\bibitem{win2005taguchi}
+Win, Z., Gakkhar, R. P., Jain, S. C., \& Bhattacharya, M. (2005).
+Investigation of diesel engine operating and injection system parameters for low noise, emissions,
+and fuel consumption using Taguchi methods. \textit{Proceedings of the Institution of Mechanical Engineers,
+Part D: Journal of Automobile Engineering}, 219(10), 1237-1251.
+
 \end{thebibliography}
 
+\clearpage
 \section{Appendix}
 
-\subsection{Figures}
+% \subsection{Figures}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../results/numerical_distributions_with_outliers.png}
+    \caption{Distributions of Numerical Variables in the Auto MPG Dataset}
+    \label{fig:numerical_distributions_with_outliers}
+\end{figure}
+
 \begin{figure}[!h]
     \centering
     \includegraphics[width=0.8\textwidth]{../results/brand_distribution.png}
@@ -342,9 +295,7 @@ UCI Machine Learning Repository. Retrieved from \url{https://www.kaggle.com/data
     \label{fig:brand_distribution}
 \end{figure}
 
-\subsection{Tables}
-
-\begin{table}[h!]
+\begin{table}[!h]
 \centering
 \caption{Descriptive Statistics of Fuel Efficiency (MPG) by Car Origin}
 \label{tab:descriptive_stats}
@@ -368,7 +319,6 @@ Although the dataset is non-human and publicly available, ethical integrity is m
 \begin{itemize}
     \item \textbf{Data Source:} \url{https://www.kaggle.com/datasets/uciml/autompg-dataset}
     \item \textbf{Privacy and Compliance:} Ensuring no personally identifiable information is used.
-    \item \textbf{Reproducibility:} Providing Python code and random seeds for full replication.
     \item \textbf{Fair Representation:} Avoiding selective reporting or p-hacking.
     \item \textbf{Academic Integrity:} Properly citing all sources and acknowledging dataset creators.
 \end{itemize}
